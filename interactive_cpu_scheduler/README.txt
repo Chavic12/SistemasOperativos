@@ -33,10 +33,3 @@ Output Parameters:
 3.	Average Turnaround Time
 4.	Throughput
 
-Contributors:
-1.	Aadit Agarwal 	 (https://github.com/aaditagarwal)
-2.	Aashish B Khatri (https://github.com/aashish-khatri)
-3.	Abhishek Jindal	 (https://github.com/abhishekjindal09)
-4.	Aitik Gupta	 (https://github.com/aitikgupta)
-5.	Himanshu Ruhela	 (https://github.com/verdantfire)
-6.	Madhavik Agarwal (https://github.com/madhavik0512)
