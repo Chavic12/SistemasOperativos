@@ -34,26 +34,36 @@ def algo(window, algorithm, queue, extra):
         t2 = tk.Label(output_win, text="Burst Time", font=("Times New Roman", 15, "normal"))
         t3 = tk.Label(output_win, text="Arrival Time", font=("Times New Roman", 15, "normal"))
         t4 = tk.Label(output_win, text="Prioridad", font=("Times New Roman", 15, "normal"))
+        t5 = tk.Label(output_win, text="timeWait", font=("Times New Roman", 15, "normal"))
+        t6 = tk.Label(output_win, text="timeReturn", font=("Times New Roman", 15, "normal"))
         tk.Label(output_win, text="  ").grid(row=0, column=0, padx=60)
-        t1.grid(row=0, column=1, padx=60, pady=20)
+        t1.grid(row=0, column=1, padx=10, pady=20)
         t2.grid(row=0, column=2, pady=20)
-        t3.grid(row=0, column=3, padx=60, pady=20)
-        t4.grid(row=0, column=4, padx=60)
+        t3.grid(row=0, column=3, padx=10, pady=20)
+        t4.grid(row=0, column=4, padx=10)
+        t5.grid(row=0, column=5, padx=10, pady=20)
+        t6.grid(row=0, column=6, padx=10, pady=20)
+
 
         pri = [process[0] for process in queue]
         burst = [process[1] for process in queue]
         arriv = [process[2] for process in queue]
+        priority = [process[3] for process in queue]
+        timeWait = [process[4] for process in queue]
+        timeReturn = [process[5] for process in queue]
 
         for i in range(len(pri)):
             tk.Label(output_win, text=pri[i], font=("Times New Roman", 12, "normal")).grid(row=1+i, column=1)
             tk.Label(output_win, text=burst[i], font=("Times New Roman", 12, "normal")).grid(row=1+i, column=2)
             tk.Label(output_win, text=arriv[i], font=("Times New Roman", 12, "normal")).grid(row=1+i, column=3)
-            tk.Label(output_win, text=Prioridad[i], font=("Times New Roman", 12, "normal")).grid(row=1 + i, column=4)
+            tk.Label(output_win, text=priority[i], font=("Times New Roman", 12, "normal")).grid(row=1 + i, column=4)
+            tk.Label(output_win, text=timeWait[i], font=("Times New Roman", 12, "normal")).grid(row=1 + i, column=5)
+            tk.Label(output_win, text=timeReturn[i], font=("Times New Roman", 12, "normal")).grid(row=1 + i, column=6)
 
         top_out.grid(row=10, column=1, padx=60, pady=10)
         label.grid(row=11, column=1, padx=60)
         button.grid(row=12, column=2, sticky=tk.NSEW)
-    if algorithm == "Non Preemption Priority ":
+    if algorithm == "Algoritmo de prioridad":
         Prioridad = []
         for idx in extra:
             try:
@@ -67,21 +77,6 @@ def algo(window, algorithm, queue, extra):
             Prioridad.append(value)
         output = main(queue, Prioridad)
         queue = output[2]
-
-    elif algorithm == "Preemption Priority ":
-        Prioridad = []
-        for idx in extra:
-            try:
-                value = int(idx.get())
-            except:
-                messagebox.showerror("¡Prioridades no válidas encontradas!", "Una o más prioridades no son números enteros.")
-                return
-            if not value:
-                messagebox.showerror("¡Prioridades no válidas encontradas!", "Una o más prioridades están en blanco.")
-                return
-            Prioridad.append(value)
-
-        output = output = main(queue, Prioridad)
     else:
         messagebox.showerror("¡Seleccione el algoritmo primero! ",
                              "Haga clic en el botón Seleccionar algoritmo antes de enviar.")
@@ -160,7 +155,7 @@ def goto_submission(second, queue):
                     multi_level_pr_labels[level].grid_forget()
                     multi_level_processes[level].grid_forget()
         clear()
-        if algorithm == "Non Preemption Priority " or algorithm == "Preemption Priority ":
+        if algorithm == "Algoritmo de prioridad":
             pr_title.grid(row=19, column=0)
             pris_title.grid(row=19, column=2)
             for i in range(len(pr)):
@@ -171,11 +166,10 @@ def goto_submission(second, queue):
         submit = algorithm
     lab = tk.Label(third)
     modes = [
-        ("Non Preemption Priority "),
-        ("Preemption Priority "),
+        ("Algoritmo de prioridad"),
     ]
     op = tk.StringVar()
-    op.set("Preemption Priority")
+    op.set("Algoritmo de prioridad")
     option = tk.OptionMenu(third, op, *modes)
     b = tk.Button(third, text="Seleccionar algoritmo", height=2, width=30, command=lambda: select_algo(op.get()))
     b1 = tk.Button(third, text="Volver al inicio", height=2, width=30, command=lambda:goto_main(third))
@@ -258,7 +252,7 @@ def goto_user_queue():
         global count
         count += 1
         try:
-            pid = int(e1.get())
+            pid = e1.get()
             burst_time = int(e2.get())
             arr_time = int(e3.get())
         except:
